@@ -79,7 +79,7 @@ Expense/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/expense-tracker.git
+git clone https://github.com/Karthik-hr18/Expense-tracker.git
 cd expense-tracker
 ```
 
