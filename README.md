@@ -1,5 +1,10 @@
 # 💰 Expense Tracker
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-success?style=for-the-badge&logo=vercel&logoColor=white)](https://expense-tracker-dusky-seven-10.vercel.app/)
+
+> **🚀 [Experience the Live Application Here!](https://expense-tracker-dusky-seven-10.vercel.app/)**  
+> *Track your expenses, manage your income, and visualize your finances with our interactive dashboard.*
+
 A full-stack **MERN** (MongoDB, Express, React, Node.js) expense tracker with **per-user authentication**, interactive analytics, and a modern dashboard.
 
 ![React](https://img.shields.io/badge/React-19-blue?logo=react)
