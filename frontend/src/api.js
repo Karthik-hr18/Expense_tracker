@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:8000/api",
+    baseURL: "https://expense-tracker-j7wu.onrender.com/api",
 });
 
 // Automatically attach the JWT token to every request
