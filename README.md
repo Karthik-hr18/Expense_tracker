@@ -177,9 +177,10 @@ npm start
 
 | Page | Route | Description |
 |------|-------|-------------|
+| Home | `/` | Home Page |
 | Register | `/UserRegister` | Create account with username, email & password |
 | Login | `/UserLogin` | Sign in with username or email |
-| Dashboard | `/` | Summary cards, charts & analytics |
+| Dashboard | `/Dashboard` | Summary cards, charts & analytics |
 | Add Income | `/AddIncome` | Form to add income with category |
 | Add Expense | `/AddExpense` | Form to add expense with category |
 | View Incomes | `/Incomes` | Sortable income table with delete |
@@ -197,6 +198,3 @@ npm start
 
 ---
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).

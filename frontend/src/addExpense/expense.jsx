@@ -73,7 +73,7 @@ const AddExpense = () => {
           setToast({ show: false, message: "" });
         }, 1200);
       } else {
-        setTimeout(() => navigate("/"), 1200);
+        setTimeout(() => navigate("/Dashboard"), 1200);
       }
     } catch (error) {
       console.log(error);
@@ -93,7 +93,7 @@ const AddExpense = () => {
         </div>
       )}
 
-      <Link to="/" className="btn btn-secondary">
+      <Link to="/Dashboard" className="btn btn-secondary">
         <i className="fa-solid fa-backward"></i> Back
       </Link>
 

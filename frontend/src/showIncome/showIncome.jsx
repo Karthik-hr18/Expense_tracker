@@ -77,7 +77,7 @@ const Income = () => {
           <Link to="/addIncome" type="button" className="btn btn-primary">
             Add Income <i className="fa-solid fa-plus"></i>
           </Link>
-          <Link to="/" type="button" className="btn btn-secondary">
+          <Link to="/Dashboard" type="button" className="btn btn-secondary">
             DashBoard
           </Link>
 

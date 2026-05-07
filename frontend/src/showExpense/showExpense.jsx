@@ -80,7 +80,7 @@ const Expense = () => {
           <Link to="/addExpense" type="button" className="btn btn-primary">
             Add Expense <i className="fa-solid fa-plus"></i>
           </Link>
-          <Link to="/" type="button" className="btn btn-secondary">
+          <Link to="/Dashboard" type="button" className="btn btn-secondary">
             DashBoard
           </Link>
 

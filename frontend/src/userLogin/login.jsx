@@ -24,7 +24,7 @@ const Login = () => {
             const response = await api.post("/login", user);
             localStorage.setItem("token", response.data.token);
             toast.success(response.data.message, { position: "top-right" });
-            navigate("/");
+            navigate("/Dashboard");
         } catch (error) {
             toast.error(
                 error.response?.data?.message || "Login failed",

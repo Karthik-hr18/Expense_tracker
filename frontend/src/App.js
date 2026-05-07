@@ -9,10 +9,15 @@ import Income from "./showIncome/showIncome";
 import Dashboard from "./dashboard/dashboard";
 import Login from "./userLogin/login";
 import Register from "./userRegister/reg";
+import Home from "./home/Home";
 
 const route = createBrowserRouter([
   {
     path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/Dashboard",
     element: <Dashboard />,
   },
   {

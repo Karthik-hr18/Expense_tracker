@@ -26,7 +26,7 @@ const Register = () => {
             const response = await api.post("/register", user);
             localStorage.setItem("token", response.data.token);
             toast.success(response.data.message, { position: "top-right" });
-            navigate("/");
+            navigate("/Dashboard");
         } catch (error) {
             toast.error(
                 error.response?.data?.message || "Registration failed",
