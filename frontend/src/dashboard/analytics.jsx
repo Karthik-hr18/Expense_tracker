@@ -27,12 +27,10 @@ const Analytics = () => {
   const [period, setPeriod] = useState("Month");
   const [allExpenses, setAllExpenses] = useState([]);
   const [monthlyData, setMonthlyData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
         const [expensesRes, graphRes] = await Promise.all([
           api.get("/expenses"),
           api.get("/analytics/forGraph"),
@@ -55,8 +53,6 @@ const Analytics = () => {
         setMonthlyData(Object.values(merged));
       } catch (error) {
         console.error(error);
-      } finally {
-        setLoading(false);
       }
     };
     fetchData();

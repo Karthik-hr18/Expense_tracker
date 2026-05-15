@@ -6,7 +6,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./showExpense.css";
 import api from "../api";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const CATEGORIES = ["All", "Food & Dining", "Transport", "Rent & Housing", "Utilities", "Entertainment", "Shopping", "Healthcare", "Education", "Travel", "Other"];
@@ -14,7 +14,6 @@ const CATEGORIES = ["All", "Food & Dining", "Transport", "Rent & Housing", "Util
 const Expense = () => {
   const navigate = useNavigate();
   const [expenses, setExpenses] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [totalExpense, setTotalExpense] = useState(0);
@@ -25,7 +24,6 @@ const Expense = () => {
 
   const fetchData = async () => {
     try {
-      setLoading(true);
       const [expRes, totalRes] = await Promise.all([
         api.get("/expenses"),
         api.get("/getTotalExpense")
@@ -35,8 +33,6 @@ const Expense = () => {
     } catch (error) {
       console.error(error);
       toast.error("Failed to load expenses");
-    } finally {
-      setLoading(false);
     }
   };
 
