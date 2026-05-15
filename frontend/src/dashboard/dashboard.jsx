@@ -7,6 +7,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import SummaryCard from "../components/sumaryCard";
 import "./dashboard.css";
+import "./transactionStyles.css";
 import api from "../api";
 import {
   BarChart,
@@ -179,23 +180,33 @@ const Dashboard = () => {
 
       {/* Recent Activity */}
       <div style={{ marginTop: "var(--space-2xl)" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-md)" }}>
+        <div className="activity-header">
           <h3 style={{ margin: 0, fontSize: "1.25rem" }}>Recent Activity</h3>
-          <Link to="/Expenses" style={{ fontSize: "0.875rem", color: "var(--color-primary)", fontWeight: 600 }}>View All</Link>
+          <Link to="/Expenses" className="btn-ghost" style={{ fontSize: "0.85rem", fontWeight: 600 }}>View All</Link>
         </div>
-        <div className="mobile-card-list">
+        
+        <div className="activity-list">
           {allExpenses.slice(0, 5).map((item) => (
             <div key={item._id} className="transaction-card">
-              <div className="category-icon" style={{ backgroundColor: "var(--color-danger-bg)", color: "var(--color-danger)" }}>
+              <div className="transaction-icon" style={{ backgroundColor: "var(--color-danger-bg)", color: "var(--color-danger)" }}>
                 <i className="fa-solid fa-receipt"></i>
               </div>
-              <div className="transaction-info">
+              <div className="transaction-main">
                 <span className="transaction-name">{item.name}</span>
-                <span className="transaction-date">{new Date(item.date).toLocaleDateString()} • {item.category || "Other"}</span>
+                <div className="transaction-meta">
+                  <span>{new Date(item.date).toLocaleDateString()}</span>
+                  <span className="dot"></span>
+                  <span style={{ color: 'var(--color-text-secondary)' }}>{item.category || "Other"}</span>
+                </div>
               </div>
-              <div className="transaction-amount" style={{ color: "var(--color-danger)" }}>- ₹{item.amount}</div>
+              <div className="transaction-amount amount-negative">
+                - ₹{item.amount.toLocaleString('en-IN')}
+              </div>
             </div>
           ))}
+          {allExpenses.length === 0 && (
+            <div className="no-data">No transactions found yet</div>
+          )}
         </div>
       </div>
     </>

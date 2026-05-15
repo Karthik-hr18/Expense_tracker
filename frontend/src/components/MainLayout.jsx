@@ -1,7 +1,7 @@
 /*
- * MainLayout Component — Updated with Mobile Sidebar Drawer
- * Changes: Added mobile hamburger menu, sidebar drawer state,
- * and unified navigation for both desktop and mobile.
+ * MainLayout Component — Final Polish
+ * Changes: Compact square cards, fixed sidebar alignment,
+ * and normal-sized profile/username for better visibility.
  */
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -33,7 +33,6 @@ const MainLayout = ({ children }) => {
     if (storedUsername && storedUsername !== username) {
       setUsername(storedUsername);
     }
-    // Close sidebar on route change
     setSidebarOpen(false);
   }, [location, username]);
 
@@ -52,7 +51,7 @@ const MainLayout = ({ children }) => {
 
   return (
     <div className={`dashboard-layout ${isSidebarOpen ? "sidebar-open" : ""}`}>
-      {/* Sidebar Overlay (Mobile) */}
+      {/* Mobile Overlay */}
       <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)}></div>
 
       {/* Sidebar Drawer */}
@@ -62,7 +61,7 @@ const MainLayout = ({ children }) => {
             <i className="fa-solid fa-chart-pie"></i>
           </div>
           <span className="sidebar-brand">ExpenseTracker</span>
-          <button className="mobile-close-btn" onClick={() => setSidebarOpen(false)}>
+          <button className="mobile-close-btn" onClick={() => setSidebarOpen(false)} style={{ marginLeft: 'auto', fontSize: '1.25rem', color: 'var(--color-text-muted)' }}>
             <i className="fa-solid fa-xmark"></i>
           </button>
         </div>
@@ -78,58 +77,58 @@ const MainLayout = ({ children }) => {
               <span>{item.label}</span>
             </Link>
           ))}
-          <div className="divider" style={{ margin: 'var(--space-md) 0' }}></div>
-          <Link to="/AddExpense" className="nav-item">
-            <i className="fa-solid fa-plus-circle text-danger"></i>
+          
+          <div className="divider" style={{ margin: '1rem 0', opacity: 0.3 }}></div>
+          
+          <Link to="/AddExpense" className={`nav-item ${location.pathname === "/AddExpense" ? "active" : ""}`}>
+            <i className="fa-solid fa-circle-plus" style={{ color: 'var(--color-danger)' }}></i>
             <span>Add Expense</span>
           </Link>
-          <Link to="/AddIncome" className="nav-item">
-            <i className="fa-solid fa-plus-circle text-success"></i>
+          <Link to="/AddIncome" className={`nav-item ${location.pathname === "/AddIncome" ? "active" : ""}`}>
+            <i className="fa-solid fa-circle-plus" style={{ color: 'var(--color-success)' }}></i>
             <span>Add Income</span>
           </Link>
         </nav>
 
         <div className="sidebar-footer">
-          <button onClick={handleLogout} className="nav-item" style={{ width: '100%', color: 'var(--color-danger)' }}>
-            <i className="fa-solid fa-right-from-bracket"></i>
-            <span>Logout</span>
+          <button onClick={handleLogout} className="nav-item" style={{ width: '100%', border: 'none', background: 'transparent', cursor: 'pointer' }}>
+            <i className="fa-solid fa-right-from-bracket" style={{ color: 'var(--color-danger)' }}></i>
+            <span style={{ color: 'var(--color-danger)' }}>Logout</span>
           </button>
         </div>
       </aside>
 
       {/* Main Content Area */}
       <main className="main-content">
-        {/* Top Navbar */}
-        <div className="top-navbar">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+        <header className="top-navbar">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <button className="hamburger-btn" onClick={() => setSidebarOpen(true)}>
               <i className="fa-solid fa-bars-staggered"></i>
             </button>
-            <span className="mobile-logo">ET</span>
+            <span className="mobile-logo">ExpenseTracker</span>
           </div>
           
           <div className="nav-actions">
             <div className="profile-section">
               <div style={{ textAlign: 'right' }}>
-                <p style={{ margin: 0, fontWeight: 700, fontSize: '0.85rem' }}>{username}</p>
-                <button onClick={handleLogout} style={{ fontSize: '0.7rem', color: 'var(--color-danger)', fontWeight: 600, border: 'none', background: 'none', padding: 0 }}>
+                <p className="profile-name">{username}</p>
+                <button onClick={handleLogout} className="logout-link">
                   Logout
                 </button>
               </div>
-              <div className="avatar">
+              <div className="avatar-large">
                 {username ? username.charAt(0).toUpperCase() : "U"}
               </div>
             </div>
           </div>
-        </div>
+        </header>
 
-        {/* Page Content */}
         <div className="page-content animate-in">
           {children}
         </div>
       </main>
 
-      {/* Bottom Navigation (Mobile) */}
+      {/* Mobile Bottom Navigation */}
       <nav className="bottom-nav">
         <Link to="/Dashboard" className={`bottom-nav-item ${location.pathname === "/Dashboard" ? "active" : ""}`}>
           <i className="fa-solid fa-house"></i>
@@ -139,16 +138,18 @@ const MainLayout = ({ children }) => {
           <i className="fa-solid fa-chart-pie"></i>
           <span>Stats</span>
         </Link>
+        
         <div className="add-fab-container">
-             <Link to="/AddExpense" className="add-btn-mobile">
-                <i className="fa-solid fa-plus"></i>
-              </Link>
+          <Link to="/AddExpense" className="add-btn-mobile">
+            <i className="fa-solid fa-plus"></i>
+          </Link>
         </div>
+        
         <Link to="/Expenses" className={`bottom-nav-item ${location.pathname === "/Expenses" ? "active" : ""}`}>
           <i className="fa-solid fa-receipt"></i>
           <span>History</span>
         </Link>
-        <button onClick={() => setSidebarOpen(true)} className="bottom-nav-item">
+        <button className="bottom-nav-item" onClick={() => setSidebarOpen(true)} style={{ border: 'none', background: 'transparent' }}>
           <i className="fa-solid fa-bars"></i>
           <span>Menu</span>
         </button>

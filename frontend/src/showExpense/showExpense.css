@@ -11,10 +11,10 @@
 
 .history-header {
   position: sticky;
-  top: 70px; /* Below top-navbar */
+  top: 0; /* Align with top of scroll if top-navbar is not sticky or adjust as needed */
   background: var(--color-bg);
   padding: var(--space-md) var(--space-md);
-  z-index: 100;
+  z-index: 90;
   border-bottom: 1px solid var(--color-border);
 }
 

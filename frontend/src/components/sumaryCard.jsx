@@ -33,42 +33,45 @@ function SummaryCard({ title, amount, subtitle, color, icon, trend }) {
     const config = colorClasses[color] || colorClasses.primary;
 
     return (
-        <div className="card animate-in" style={{ padding: 'var(--space-md)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-sm)' }}>
+        <div className="card summary-card animate-in">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div className="category-icon" style={{ backgroundColor: config.bg, color: config.text }}>
                     <i className={`fa-solid ${icon || config.icon}`}></i>
                 </div>
                 {trend && (
                     <span className={`badge ${trend > 0 ? 'badge-success' : 'badge-danger'}`}>
-                        {trend > 0 ? '+' : ''}{trend}%
+                        {trend > 0 ? '↑' : '↓'}{Math.abs(trend)}%
                     </span>
                 )}
             </div>
             
-            <span className="form-label" style={{ marginBottom: '4px', fontSize: '0.65rem' }}>{title}</span>
-            
-            <h2 style={{ 
-                fontSize: 'clamp(1.25rem, 4vw, 1.75rem)', 
-                margin: 0, 
-                fontWeight: 800,
-                color: 'var(--color-text)'
-            }}>
-                ₹{Number(amount || 0).toLocaleString('en-IN')}
-            </h2>
-            
-            {subtitle && (
-                <span style={{ 
-                    fontSize: '0.75rem', 
-                    color: 'var(--color-text-muted)',
-                    display: 'block',
-                    marginTop: '4px',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
+            <div style={{ marginTop: 'auto' }}>
+                <span className="form-label" style={{ marginBottom: '4px', fontSize: '0.7rem', display: 'block' }}>{title}</span>
+                <h2 style={{ 
+                    fontSize: 'clamp(1.1rem, 5vw, 1.5rem)', 
+                    margin: 0, 
+                    fontWeight: 800,
+                    color: 'var(--color-text)',
+                    lineHeight: 1
                 }}>
-                    {subtitle}
-                </span>
-            )}
+                    ₹{Number(amount || 0).toLocaleString('en-IN')}
+                </h2>
+                
+                {subtitle && (
+                    <span style={{ 
+                        fontSize: '0.7rem', 
+                        color: 'var(--color-text-muted)',
+                        display: 'block',
+                        marginTop: '6px',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        opacity: 0.8
+                    }}>
+                        {subtitle}
+                    </span>
+                )}
+            </div>
         </div>
     );
 }
