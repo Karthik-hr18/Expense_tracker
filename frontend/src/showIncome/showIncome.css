@@ -1,4 +1,4 @@
-/* Reuse showExpense.css with success overrides */
+/* Reuse showExpense.css revised styles with income overrides */
 .income-history .history-item-icon i {
   color: var(--color-success);
 }
@@ -10,4 +10,9 @@
 .income-history .tag-pill {
   background: var(--color-success-bg);
   color: var(--color-success);
+}
+
+/* Ensure consistent spacing */
+.income-history .mobile-card-list {
+  padding-bottom: 120px;
 }

@@ -1,7 +1,7 @@
 /*
- * MainLayout Component
- * Changes: Unified sidebar, top-navbar with profile, and mobile bottom nav.
- * Wraps all protected pages.
+ * MainLayout Component — Updated with Mobile Sidebar Drawer
+ * Changes: Added mobile hamburger menu, sidebar drawer state,
+ * and unified navigation for both desktop and mobile.
  */
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -10,11 +10,10 @@ import "../dashboard/dashboard.css";
 const MainLayout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [username, setUsername] = useState(() => {
     const stored = localStorage.getItem("username");
     if (stored) return stored;
-    
-    // Fallback: Try to decode the token if username is missing from localStorage
     const token = localStorage.getItem("token");
     if (token) {
       try {
@@ -30,11 +29,12 @@ const MainLayout = ({ children }) => {
   });
 
   useEffect(() => {
-    // Keep username in sync and refresh from token if needed
     const storedUsername = localStorage.getItem("username");
     if (storedUsername && storedUsername !== username) {
       setUsername(storedUsername);
     }
+    // Close sidebar on route change
+    setSidebarOpen(false);
   }, [location, username]);
 
   const handleLogout = () => {
@@ -51,14 +51,20 @@ const MainLayout = ({ children }) => {
   ];
 
   return (
-    <div className="dashboard-layout">
-      {/* Sidebar (Desktop/Tablet) */}
-      <aside className="sidebar">
+    <div className={`dashboard-layout ${isSidebarOpen ? "sidebar-open" : ""}`}>
+      {/* Sidebar Overlay (Mobile) */}
+      <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)}></div>
+
+      {/* Sidebar Drawer */}
+      <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
           <div className="sidebar-logo">
             <i className="fa-solid fa-chart-pie"></i>
           </div>
           <span className="sidebar-brand">ExpenseTracker</span>
+          <button className="mobile-close-btn" onClick={() => setSidebarOpen(false)}>
+            <i className="fa-solid fa-xmark"></i>
+          </button>
         </div>
 
         <nav className="sidebar-nav">
@@ -93,21 +99,24 @@ const MainLayout = ({ children }) => {
 
       {/* Main Content Area */}
       <main className="main-content">
-        {/* Unified Top Navbar */}
-        <div className="top-navbar" style={{ borderBottom: '1px solid var(--color-border)', marginBottom: 'var(--space-lg)', height: '70px' }}>
-          <span className="mobile-logo" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <i className="fa-solid fa-chart-pie"></i> ET
-          </span>
+        {/* Top Navbar */}
+        <div className="top-navbar">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+            <button className="hamburger-btn" onClick={() => setSidebarOpen(true)}>
+              <i className="fa-solid fa-bars-staggered"></i>
+            </button>
+            <span className="mobile-logo">ET</span>
+          </div>
           
           <div className="nav-actions">
-            <div className="profile-section" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+            <div className="profile-section">
               <div style={{ textAlign: 'right' }}>
-                <p style={{ margin: 0, fontWeight: 700, fontSize: '0.9rem', color: 'var(--color-text)' }}>{username}</p>
-                <button onClick={handleLogout} style={{ fontSize: '0.75rem', color: 'var(--color-danger)', fontWeight: 600, border: 'none', background: 'none', padding: 0 }}>
+                <p style={{ margin: 0, fontWeight: 700, fontSize: '0.85rem' }}>{username}</p>
+                <button onClick={handleLogout} style={{ fontSize: '0.7rem', color: 'var(--color-danger)', fontWeight: 600, border: 'none', background: 'none', padding: 0 }}>
                   Logout
                 </button>
               </div>
-              <div className="avatar" style={{ background: 'var(--color-primary)', width: '40px', height: '40px', fontSize: '1rem', cursor: 'pointer', flexShrink: 0 }}>
+              <div className="avatar">
                 {username ? username.charAt(0).toUpperCase() : "U"}
               </div>
             </div>
@@ -139,9 +148,9 @@ const MainLayout = ({ children }) => {
           <i className="fa-solid fa-receipt"></i>
           <span>History</span>
         </Link>
-        <button onClick={handleLogout} className="bottom-nav-item">
-          <i className="fa-solid fa-right-from-bracket"></i>
-          <span>Logout</span>
+        <button onClick={() => setSidebarOpen(true)} className="bottom-nav-item">
+          <i className="fa-solid fa-bars"></i>
+          <span>Menu</span>
         </button>
       </nav>
     </div>

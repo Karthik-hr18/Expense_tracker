@@ -1,55 +1,35 @@
 /* ============================================================
-   TRANSACTION HISTORY CSS — ExpenseTracker
-   Changes: Sticky search bar, filter chips,
-   Responsive views (Table vs Card List),
-   Hover highlights, and pull-to-refresh style headers.
+   TRANSACTION HISTORY CSS REVISED — ExpenseTracker
+   Changes: Fixed clipping issues, better horizontal scroll for 
+   filters, and improved mobile list spacing.
    ============================================================ */
 
 .history-page {
-  padding: var(--space-lg);
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: var(--space-sm) 0;
+  width: 100%;
 }
 
-/* Header & Sticky Search */
 .history-header {
   position: sticky;
-  top: 0;
+  top: 70px; /* Below top-navbar */
   background: var(--color-bg);
-  padding: var(--space-md) 0;
-  z-index: var(--z-dropdown);
+  padding: var(--space-md) var(--space-md);
+  z-index: 100;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .search-bar-container {
   margin-bottom: var(--space-md);
 }
 
-.search-input-wrap {
-  position: relative;
-  width: 100%;
-}
-
-.search-input-wrap i {
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--color-text-muted);
-}
-
-.search-input-wrap input {
-  padding-left: 3rem;
-  height: 48px;
-  background: var(--color-surface);
-}
-
-/* Filter Chips */
+/* Filter Chips with proper padding to prevent cut-off */
 .filter-scroll-container {
   display: flex;
   overflow-x: auto;
   gap: var(--space-sm);
-  padding: var(--space-sm) 0;
+  padding: 4px 0 12px 0; /* Extra bottom padding for scroll indicator */
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .filter-scroll-container::-webkit-scrollbar {
@@ -58,34 +38,30 @@
 
 .filter-chip {
   flex: 0 0 auto;
-  padding: 6px 16px;
+  padding: 8px 18px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-full);
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-text-muted);
-  cursor: pointer;
-  transition: var(--transition);
+  white-space: nowrap;
 }
 
 .filter-chip.active {
   background: var(--color-primary);
   border-color: var(--color-primary);
   color: #fff;
+  box-shadow: 0 4px 12px rgba(108, 99, 255, 0.25);
 }
 
-/* Desktop Table View */
-.desktop-table-view {
-  display: none; /* Mobile first */
-}
-
-/* Mobile Card List */
+/* Mobile List — Fixing the clipping */
 .mobile-card-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  margin-top: var(--space-md);
+  padding: var(--space-md);
+  overflow: visible; /* Ensure nothing is cut off */
 }
 
 .history-item-card {
@@ -96,13 +72,14 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  animation: fadeSlideUp 0.3s ease both;
+  box-shadow: var(--shadow-sm);
+  min-height: 80px;
 }
 
 .history-item-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-full);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -112,77 +89,28 @@
 
 .history-item-details {
   flex: 1;
+  min-width: 0;
 }
 
 .history-item-title {
   font-weight: 700;
+  font-size: 1rem;
   display: block;
-}
-
-.history-item-meta {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.tag-pill {
-  padding: 2px 8px;
-  background: var(--color-surface-2);
-  border-radius: var(--radius-full);
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .history-item-amount {
   font-weight: 800;
+  font-size: 1.125rem;
   text-align: right;
+  white-space: nowrap;
 }
 
-.amount-expense { color: var(--color-danger); }
-.amount-income { color: var(--color-success); }
-
-/* RESPONSIVE */
+/* Responsive Table remains the same but ensure it's contained */
 @media (min-width: 1024px) {
-  .mobile-card-list {
-    display: none;
-  }
-
-  .desktop-table-view {
-    display: block;
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
-    overflow: hidden;
-    margin-top: var(--space-lg);
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  th {
-    padding: var(--space-lg) var(--space-md);
-    text-align: left;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  td {
-    padding: var(--space-lg) var(--space-md);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  tr:hover td {
-    background: var(--color-surface-2);
-  }
-
-  tr:last-child td {
-    border-bottom: none;
+  .history-page {
+    padding: var(--space-xl) 0;
   }
 }
