@@ -1,268 +1,181 @@
-/* ===== Form Container ===== */
-.addUser {
-  max-width: 540px;
-  margin: 40px auto;
-  padding: 36px 32px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
-  position: relative;
-}
+/* ============================================================
+   EXPENSE FORM CSS — ExpenseTracker
+   Changes: Centered modal (desktop), Bottom sheet (mobile),
+   Giant amount input, Category chips (horizontal scroll),
+   Drag handle, Auto-expanding textarea.
+   ============================================================ */
 
-.addUser h3 {
-  text-align: center;
-  margin-bottom: 28px;
-  font-size: 22px;
-  font-weight: 700;
-  color: #2d3436;
-}
-
-/* ===== Toast Notification ===== */
-.toast-msg {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  padding: 14px 24px;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 14px;
-  color: #fff;
-  z-index: 9999;
-  animation: slideIn 0.35s ease-out;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-.toast-success {
-  background: linear-gradient(135deg, #28a745, #20c997);
-}
-
-.toast-error {
-  background: linear-gradient(135deg, #dc3545, #ff6b6b);
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* ===== Form Layout ===== */
-.addUserForm {
+.expense-form-page {
+  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* ===== Input Groups ===== */
-.inputGroup {
-  display: flex;
-  flex-direction: column;
-}
-
-.inputGroup label {
-  margin-bottom: 7px;
-  font-weight: 600;
-  font-size: 13px;
-  color: #555;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.inputGroup label i {
-  margin-right: 6px;
-  color: #dc3545;
-}
-
-.optional-tag {
-  text-transform: none;
-  font-weight: 400;
-  color: #999;
-  font-size: 12px;
-  letter-spacing: 0;
-}
-
-.inputGroup input,
-.inputGroup select,
-.inputGroup textarea {
-  padding: 11px 14px;
-  border-radius: 10px;
-  border: 2px solid #e9ecef;
-  font-size: 15px;
-  color: #333;
-  background: #fafafa;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-  outline: none;
-  font-family: inherit;
-}
-
-.inputGroup input:focus,
-.inputGroup select:focus,
-.inputGroup textarea:focus {
-  border-color: #dc3545;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
-}
-
-.inputGroup textarea {
-  resize: vertical;
-  min-height: 70px;
-}
-
-.inputGroup select {
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  padding-right: 36px;
-}
-
-/* ===== Amount Input with ₹ Prefix ===== */
-.input-with-prefix {
-  display: flex;
-  align-items: stretch;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px solid #e9ecef;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
-  background: #fafafa;
-}
-
-.input-with-prefix:focus-within {
-  border-color: #dc3545;
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
-  background: #fff;
-}
-
-.input-prefix {
-  display: flex;
-  align-items: center;
-  padding: 0 14px;
-  background: #f0f0f0;
-  font-weight: 700;
-  font-size: 16px;
-  color: #555;
-  border-right: 2px solid #e9ecef;
-}
-
-.input-with-prefix input {
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  flex: 1;
-  box-shadow: none !important;
-}
-
-.input-with-prefix input:focus {
-  box-shadow: none !important;
-  border: none;
-}
-
-/* ===== Validation Error ===== */
-.input-error {
-  border-color: #dc3545 !important;
-  background: #fff5f5 !important;
-}
-
-.error-text {
-  color: #dc3545;
-  font-size: 12px;
-  font-weight: 500;
-  margin-top: 5px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.error-text::before {
-  content: "⚠";
-  font-size: 11px;
-}
-
-/* ===== Buttons ===== */
-.btn {
-  padding: 11px 20px;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  border: none;
-  transition: all 0.25s ease;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  text-decoration: none;
+  background-color: var(--color-bg);
+  padding: var(--space-lg);
 }
 
-.btn-secondary {
-  background-color: #6c757d;
-  color: #fff;
-  margin-bottom: 10px;
-  display: inline-flex;
-  width: fit-content;
+.expense-card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  position: relative;
+  animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-.btn-secondary:hover {
-  background-color: #5c636a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, #dc3545, #c82333);
-  color: #fff;
-  flex: 1;
+.form-header {
+  padding: var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
 }
 
-.btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.35);
+.drag-handle {
+  display: none; /* Desktop hidden */
 }
 
-.btn-primary:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+/* Amount Field */
+.amount-wrapper {
+  padding: var(--space-xl) var(--space-lg);
+  text-align: center;
+  background: var(--color-surface-2);
 }
 
-.btn-outline {
+.amount-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+}
+
+.currency-symbol {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.amount-input-giant {
   background: transparent;
-  color: #dc3545;
-  border: 2px solid #dc3545;
-  flex: 1;
+  border: none;
+  font-size: 3rem;
+  font-weight: 800;
+  text-align: center;
+  width: 200px;
+  color: var(--color-text);
+  padding: 0;
+  min-height: unset;
 }
 
-.btn-outline:hover:not(:disabled) {
-  background: rgba(220, 53, 69, 0.06);
-  transform: translateY(-2px);
+.amount-input-giant:focus {
+  box-shadow: none;
+  border: none;
 }
 
-.btn-outline:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+/* Category Chips */
+.category-scroll-grid {
+  display: flex;
+  overflow-x: auto;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  scrollbar-width: none; /* Firefox */
+}
+
+.category-scroll-grid::-webkit-scrollbar {
+  display: none; /* Safari/Chrome */
+}
+
+.category-chip {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-2);
+  border: 2px solid transparent;
+  transition: var(--transition);
+  cursor: pointer;
+  min-width: 80px;
+}
+
+.category-chip.active {
+  background: rgba(108, 99, 255, 0.1);
+  border-color: var(--color-primary);
+}
+
+.category-chip.active i {
+  color: var(--color-primary);
+}
+
+.category-chip i {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+}
+
+.category-chip span {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Form Groups */
+.form-body {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
 }
 
 .form-actions {
+  padding: var(--space-lg);
   display: flex;
-  gap: 12px;
-  margin-top: 8px;
+  gap: var(--space-md);
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 580px) {
-  .addUser {
-    margin: 20px 16px;
-    padding: 24px 20px;
+/* Mobile Adjustments */
+@media (max-width: 767px) {
+  .expense-form-page {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .expense-card {
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .drag-handle {
+    display: block;
+    width: 32px;
+    height: 4px;
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+    margin: var(--space-sm) auto;
+  }
+
+  .amount-input-giant {
+    font-size: 2.5rem;
   }
 
   .form-actions {
     flex-direction: column;
+  }
+
+  .form-actions .btn {
+    width: 100%;
   }
 }

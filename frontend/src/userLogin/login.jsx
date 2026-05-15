@@ -1,3 +1,8 @@
+/*
+ * Login page — redesigned
+ * Changes: Split-panel layout, branded left panel, 
+ * modern form card, gradient CTA, no Bootstrap dependency
+ */
 import React, { useState } from "react";
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -5,10 +10,7 @@ import api from "../api";
 import toast from "react-hot-toast";
 
 const Login = () => {
-    const [user, setUser] = useState({
-        identifier: "",
-        password: "",
-    });
+    const [user, setUser] = useState({ identifier: "", password: "" });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -23,13 +25,11 @@ const Login = () => {
         try {
             const response = await api.post("/login", user);
             localStorage.setItem("token", response.data.token);
+            localStorage.setItem("username", response.data.user.username);
             toast.success(response.data.message, { position: "top-right" });
             navigate("/Dashboard");
         } catch (error) {
-            toast.error(
-                error.response?.data?.message || "Login failed",
-                { position: "top-right" }
-            );
+            toast.error(error.response?.data?.message || "Login failed", { position: "top-right" });
         } finally {
             setLoading(false);
         }
@@ -37,60 +37,102 @@ const Login = () => {
 
     return (
         <div className="auth-page">
-            <div className="auth-card">
-                <div className="auth-header">
-                    <div className="auth-icon">
-                        <i className="fa-solid fa-right-to-bracket"></i>
+            {/* Mobile Header Strip */}
+            <div className="auth-mobile-header">
+                <div className="logo-mark">
+                    <i className="fa-solid fa-chart-pie"></i>
+                </div>
+                <span>ExpenseTracker</span>
+            </div>
+
+            {/* Left Branded Panel */}
+            <div className="auth-brand-panel">
+                <div className="auth-brand-logo">
+                    <div className="logo-icon">
+                        <i className="fa-solid fa-chart-pie" style={{ color: '#fff' }}></i>
                     </div>
-                    <h2>Welcome Back</h2>
-                    <p>Sign in to manage your expenses</p>
+                    <span className="brand-name">ExpenseTracker</span>
                 </div>
 
-                <form className="auth-form" onSubmit={submitForm}>
-                    <div className="input-group">
-                        <label htmlFor="identifier">
-                            <i className="fa-solid fa-at"></i> Username or Email
-                        </label>
-                        <input
-                            type="text"
-                            id="identifier"
-                            onChange={inputHandler}
-                            name="identifier"
-                            autoComplete="off"
-                            placeholder="Enter your username or email"
-                            required
-                        />
+                <h2 className="auth-brand-tagline">Take control of your finances</h2>
+                <p className="auth-brand-sub">
+                    Track spending, analyze habits, and build a better financial future — all in one place.
+                </p>
+
+                <div className="auth-brand-features">
+                    <div className="auth-brand-feature">
+                        <i className="fa-solid fa-chart-line"></i>
+                        <span>Real-time analytics &amp; insights</span>
+                    </div>
+                    <div className="auth-brand-feature">
+                        <i className="fa-solid fa-shield-halved"></i>
+                        <span>Secure &amp; private by design</span>
+                    </div>
+                    <div className="auth-brand-feature">
+                        <i className="fa-solid fa-bolt"></i>
+                        <span>Log expenses in seconds</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Right Form Panel */}
+            <div className="auth-form-panel">
+                <div className="auth-card animate-in">
+                    <div className="auth-header">
+                        <div className="auth-icon-wrap">
+                            <i className="fa-solid fa-right-to-bracket"></i>
+                        </div>
+                        <h2>Welcome back</h2>
+                        <p>Sign in to manage your expenses</p>
                     </div>
 
-                    <div className="input-group">
-                        <label htmlFor="password">
-                            <i className="fa-solid fa-lock"></i> Password
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            onChange={inputHandler}
-                            name="password"
-                            autoComplete="off"
-                            placeholder="Enter your password"
-                            required
-                        />
+                    <form className="auth-form" onSubmit={submitForm}>
+                        <div className="input-group">
+                            <label htmlFor="identifier">
+                                <i className="fa-solid fa-at"></i> Username or Email
+                            </label>
+                            <input
+                                type="text"
+                                id="identifier"
+                                name="identifier"
+                                onChange={inputHandler}
+                                autoComplete="off"
+                                placeholder="Enter your username or email"
+                                required
+                            />
+                        </div>
+
+                        <div className="input-group">
+                            <label htmlFor="password">
+                                <i className="fa-solid fa-lock"></i> Password
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                onChange={inputHandler}
+                                autoComplete="off"
+                                placeholder="Enter your password"
+                                required
+                            />
+                        </div>
+
+                        <div className="forgot-link">
+                            <a href="#forgot">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" className="auth-btn" disabled={loading} id="login-submit-btn">
+                            {loading ? (
+                                <><i className="fa-solid fa-spinner fa-spin"></i> Signing In...</>
+                            ) : (
+                                <><i className="fa-solid fa-right-to-bracket"></i> Sign In</>
+                            )}
+                        </button>
+                    </form>
+
+                    <div className="auth-footer">
+                        <p>Don't have an account?{" "}<Link to="/UserRegister">Create Account</Link></p>
                     </div>
-
-                    <button type="submit" className="auth-btn" disabled={loading}>
-                        {loading ? (
-                            <span><i className="fa-solid fa-spinner fa-spin"></i> Signing In...</span>
-                        ) : (
-                            <span><i className="fa-solid fa-right-to-bracket"></i> Sign In</span>
-                        )}
-                    </button>
-                </form>
-
-                <div className="auth-footer">
-                    <p>
-                        Don't have an account?{" "}
-                        <Link to="/UserRegister">Create Account</Link>
-                    </p>
                 </div>
             </div>
         </div>

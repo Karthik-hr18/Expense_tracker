@@ -1,115 +1,188 @@
-/* Page Title */
-.navbar-title {
-  text-align: center;
-  margin: 30px 0 20px;
-  font-weight: 700;
-  color: #333;
+/* ============================================================
+   TRANSACTION HISTORY CSS — ExpenseTracker
+   Changes: Sticky search bar, filter chips,
+   Responsive views (Table vs Card List),
+   Hover highlights, and pull-to-refresh style headers.
+   ============================================================ */
+
+.history-page {
+  padding: var(--space-lg);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* Container */
-.userTable {
-  max-width: 1000px;
-  margin: 0 auto 50px;
-  padding: 20px;
+/* Header & Sticky Search */
+.history-header {
+  position: sticky;
+  top: 0;
+  background: var(--color-bg);
+  padding: var(--space-md) 0;
+  z-index: var(--z-dropdown);
 }
 
-/* Top Buttons Row */
-.buttons-row {
+.search-bar-container {
+  margin-bottom: var(--space-md);
+}
+
+.search-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.search-input-wrap i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+}
+
+.search-input-wrap input {
+  padding-left: 3rem;
+  height: 48px;
+  background: var(--color-surface);
+}
+
+/* Filter Chips */
+.filter-scroll-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-  gap: 15px;
+  overflow-x: auto;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+  scrollbar-width: none;
 }
 
-.buttons-row h2 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: #dc3545;
+.filter-scroll-container::-webkit-scrollbar {
+  display: none;
 }
 
-/* Table Styling */
-.table {
-  background: #ffffff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+.filter-chip {
+  flex: 0 0 auto;
+  padding: 6px 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: var(--transition);
 }
 
-.table thead {
-  background-color: #dc3545;
+.filter-chip.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
   color: #fff;
 }
 
-.table th,
-.table td {
-  text-align: center;
-  vertical-align: middle;
-  padding: 12px;
+/* Desktop Table View */
+.desktop-table-view {
+  display: none; /* Mobile first */
 }
 
-.table tbody tr {
-  transition: background 0.2s ease;
-}
-
-.table tbody tr:hover {
-  background-color: #f8f9fa;
-}
-
-/* Action Buttons */
-.actionButtons {
+/* Mobile Card List */
+.mobile-card-list {
   display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.history-item-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  animation: fadeSlideUp 0.3s ease both;
+}
+
+.history-item-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
   justify-content: center;
+  background: var(--color-surface-2);
+  flex-shrink: 0;
 }
 
-.actionButtons .btn {
-  padding: 6px 12px;
-  border-radius: 6px;
+.history-item-details {
+  flex: 1;
 }
 
-/* Improve Buttons */
-.btn {
-  border-radius: 8px;
+.history-item-title {
+  font-weight: 700;
+  display: block;
+}
+
+.history-item-meta {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tag-pill {
+  padding: 2px 8px;
+  background: var(--color-surface-2);
+  border-radius: var(--radius-full);
+  font-size: 0.65rem;
+  text-transform: uppercase;
   font-weight: 600;
-  transition: 0.2s ease;
 }
 
-.btn:hover {
-  transform: translateY(-2px);
+.history-item-amount {
+  font-weight: 800;
+  text-align: right;
 }
 
-/* Sort Dropdown */
-.sort-select {
-  padding: 8px 14px;
-  border: 2px solid #dee2e6;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #495057;
-  background: #fff;
-  cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  outline: none;
-}
+.amount-expense { color: var(--color-danger); }
+.amount-income { color: var(--color-success); }
 
-.sort-select:focus {
-  border-color: #dc3545;
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
-}
+/* RESPONSIVE */
+@media (min-width: 1024px) {
+  .mobile-card-list {
+    display: none;
+  }
 
-.sort-select:hover {
-  border-color: #adb5bd;
-}
+  .desktop-table-view {
+    display: block;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    margin-top: var(--space-lg);
+  }
 
-/* Category Badge */
-.category-badge {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  background: linear-gradient(135deg, #e9ecef, #dee2e6);
-  color: #495057;
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    padding: var(--space-lg) var(--space-md);
+    text-align: left;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  td {
+    padding: var(--space-lg) var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  tr:hover td {
+    background: var(--color-surface-2);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
 }

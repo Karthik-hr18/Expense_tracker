@@ -1,22 +1,74 @@
-function SummaryCard({ title, amount, subtitle, color }) {
-    const colorMap = {
-        danger: { bg: "linear-gradient(135deg, #ff6b6b, #ee5a24)", text: "#fff" },
-        success: { bg: "linear-gradient(135deg, #20c997, #28a745)", text: "#fff" },
-        warning: { bg: "linear-gradient(135deg, #f39c12, #e67e22)", text: "#fff" },
-        dark: { bg: "linear-gradient(135deg, #636e72, #2d3436)", text: "#fff" },
+/*
+ * SummaryCard Component — Redesigned
+ * Changes: Rich aesthetics, Inter typography, 
+ * dynamic icons, metric badges, and responsive scaling.
+ */
+import React from 'react';
+
+function SummaryCard({ title, amount, subtitle, color, icon, trend }) {
+    // Mapping colors to the design system tokens
+    const colorClasses = {
+        success: {
+            bg: "var(--color-success-bg)",
+            text: "var(--color-success)",
+            icon: "fa-arrow-trend-up"
+        },
+        danger: {
+            bg: "var(--color-danger-bg)",
+            text: "var(--color-danger)",
+            icon: "fa-arrow-trend-down"
+        },
+        warning: {
+            bg: "var(--color-warning-bg)",
+            text: "var(--color-warning)",
+            icon: "fa-clock"
+        },
+        primary: {
+            bg: "rgba(108, 99, 255, 0.15)",
+            text: "var(--color-primary)",
+            icon: "fa-wallet"
+        }
     };
 
-    const style = colorMap[color] || colorMap["dark"];
+    const config = colorClasses[color] || colorClasses.primary;
 
     return (
-        <div className="summary-card" style={{ background: style.bg }}>
-            <div className="summary-card-body">
-                <h6 className="summary-card-title">{title}</h6>
-                <h4 className="summary-card-amount">
-                    ₹ {amount !== undefined && amount !== null ? amount : "—"}
-                </h4>
-                <small className="summary-card-subtitle">{subtitle || "—"}</small>
+        <div className="card animate-in" style={{ padding: 'var(--space-md)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-sm)' }}>
+                <div className="category-icon" style={{ backgroundColor: config.bg, color: config.text }}>
+                    <i className={`fa-solid ${icon || config.icon}`}></i>
+                </div>
+                {trend && (
+                    <span className={`badge ${trend > 0 ? 'badge-success' : 'badge-danger'}`}>
+                        {trend > 0 ? '+' : ''}{trend}%
+                    </span>
+                )}
             </div>
+            
+            <span className="form-label" style={{ marginBottom: '4px', fontSize: '0.65rem' }}>{title}</span>
+            
+            <h2 style={{ 
+                fontSize: 'clamp(1.25rem, 4vw, 1.75rem)', 
+                margin: 0, 
+                fontWeight: 800,
+                color: 'var(--color-text)'
+            }}>
+                ₹{Number(amount || 0).toLocaleString('en-IN')}
+            </h2>
+            
+            {subtitle && (
+                <span style={{ 
+                    fontSize: '0.75rem', 
+                    color: 'var(--color-text-muted)',
+                    display: 'block',
+                    marginTop: '4px',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
+                    {subtitle}
+                </span>
+            )}
         </div>
     );
 }

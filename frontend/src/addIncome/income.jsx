@@ -1,37 +1,39 @@
+/*
+ * AddIncome Component — Redesigned
+ * Changes: Success-themed colors, category chips, 
+ * and consistent modal/bottom-sheet layout.
+ */
 import React, { useState, useEffect } from "react";
+import "../addExpense/expense.css";
 import "./income.css";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
+import toast from "react-hot-toast";
 
 const INCOME_CATEGORIES = [
-  "Salary",
-  "Freelance",
-  "Business",
-  "Investments",
-  "Rental Income",
-  "Gift",
-  "Refund",
-  "Other",
+  { id: "Salary", icon: "fa-briefcase" },
+  { id: "Freelance", icon: "fa-laptop-code" },
+  { id: "Business", icon: "fa-store" },
+  { id: "Investments", icon: "fa-chart-line" },
+  { id: "Rental Income", icon: "fa-building" },
+  { id: "Gift", icon: "fa-gift" },
+  { id: "Other", icon: "fa-ellipsis" },
 ];
 
 const AddIncome = () => {
+  const navigate = useNavigate();
   const today = new Date().toISOString().split("T")[0];
 
   const [income, setIncome] = useState({
     name: "",
     amount: "",
     date: today,
-    category: "",
+    category: "Salary",
     notes: "",
   });
 
-  const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [toast, setToast] = useState({ show: false, message: "" });
+  const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
-  // Auth guard
   useEffect(() => {
     if (!localStorage.getItem("token")) navigate("/UserLogin");
   }, [navigate]);
@@ -39,178 +41,116 @@ const AddIncome = () => {
   const inputHandler = (e) => {
     const { name, value } = e.target;
     setIncome({ ...income, [name]: value });
-    if (errors[name]) {
-      setErrors({ ...errors, [name]: "" });
-    }
   };
 
-  const validate = () => {
-    const newErrors = {};
-    if (!income.name.trim()) newErrors.name = "Income name is required";
-    if (!income.amount || Number(income.amount) <= 0)
-      newErrors.amount = "Enter a valid amount";
-    if (!income.date) newErrors.date = "Date is required";
-    if (!income.category) newErrors.category = "Select a category";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const submitForm = async (e, addAnother = false) => {
+  const submitForm = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!income.amount || !income.name) {
+      toast.error("Please fill in required fields");
+      return;
+    }
 
-    setIsLoading(true);
+    setLoading(true);
     try {
       await api.post("/income", income);
-      setToast({ show: true, message: "Income added successfully! ✓" });
-
-      if (addAnother) {
-        setTimeout(() => {
-          setIncome({ name: "", amount: "", date: today, category: "", notes: "" });
-          setToast({ show: false, message: "" });
-        }, 1200);
-      } else {
-        setTimeout(() => navigate("/Dashboard"), 1200);
-      }
+      toast.success("Income added successfully");
+      navigate("/Dashboard");
     } catch (error) {
-      console.log(error);
-      setToast({ show: true, message: "Failed to add income ✕" });
-      setTimeout(() => setToast({ show: false, message: "" }), 2000);
+      toast.error("Failed to add income");
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="addUser">
-      {/* Toast */}
-      {toast.show && (
-        <div className={`toast-msg ${toast.message.includes("✓") ? "toast-success" : "toast-error"}`}>
-          {toast.message}
-        </div>
-      )}
-
-      <Link to="/Dashboard" className="btn btn-secondary">
-        <i className="fa-solid fa-backward"></i> Back
-      </Link>
-
-      <h3>
-        <i className="fa-solid fa-wallet" style={{ marginRight: "8px", color: "#28a745" }}></i>
-        Add New Income
-      </h3>
-
-      <form className="addUserForm" onSubmit={submitForm}>
-        {/* Name */}
-        <div className="inputGroup">
-          <label htmlFor="name">
-            <i className="fa-solid fa-tag"></i> Income Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            onChange={inputHandler}
-            name="name"
-            value={income.name}
-            autoComplete="off"
-            placeholder="e.g. Monthly Salary, Freelance gig"
-            className={errors.name ? "input-error" : ""}
-          />
-          {errors.name && <span className="error-text">{errors.name}</span>}
+    <div className="expense-form-page income-form-page">
+      <div className="expense-card">
+        <div className="drag-handle"></div>
+        <div className="form-header">
+          <h2 style={{ fontSize: "1.25rem", margin: 0 }}>Add Income</h2>
+          <Link to="/Dashboard" style={{ color: "var(--color-text-muted)" }}>
+            <i className="fa-solid fa-xmark fa-lg"></i>
+          </Link>
         </div>
 
-        {/* Amount */}
-        <div className="inputGroup">
-          <label htmlFor="amount">
-            <i className="fa-solid fa-indian-rupee-sign"></i> Amount
-          </label>
-          <div className="input-with-prefix">
-            <span className="input-prefix">₹</span>
-            <input
-              type="number"
-              id="amount"
-              onChange={inputHandler}
-              name="amount"
-              value={income.amount}
-              autoComplete="off"
-              placeholder="0.00"
-              min="0"
-              step="0.01"
-              className={errors.amount ? "input-error" : ""}
-            />
+        <form onSubmit={submitForm}>
+          {/* Amount Display */}
+          <div className="amount-wrapper">
+            <span className="form-label" style={{ marginBottom: "8px" }}>Amount</span>
+            <div className="amount-input-container">
+              <span className="currency-symbol">₹</span>
+              <input
+                type="number"
+                name="amount"
+                value={income.amount}
+                onChange={inputHandler}
+                className="amount-input-giant"
+                placeholder="0"
+                autoFocus
+              />
+            </div>
           </div>
-          {errors.amount && <span className="error-text">{errors.amount}</span>}
-        </div>
 
-        {/* Category */}
-        <div className="inputGroup">
-          <label htmlFor="category">
-            <i className="fa-solid fa-layer-group"></i> Category
-          </label>
-          <select
-            id="category"
-            name="category"
-            value={income.category}
-            onChange={inputHandler}
-            className={errors.category ? "input-error" : ""}
-          >
-            <option value="">-- Select Category --</option>
-            {INCOME_CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-          {errors.category && <span className="error-text">{errors.category}</span>}
-        </div>
+          <div className="form-body">
+            {/* Category Chips */}
+            <div>
+              <span className="form-label">Category</span>
+              <div className="category-scroll-grid">
+                {INCOME_CATEGORIES.map((cat) => (
+                  <div
+                    key={cat.id}
+                    className={`category-chip ${income.category === cat.id ? "active" : ""}`}
+                    onClick={() => setIncome({ ...income, category: cat.id })}
+                  >
+                    <i className={`fa-solid ${cat.icon}`}></i>
+                    <span>{cat.id}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-        {/* Date */}
-        <div className="inputGroup">
-          <label htmlFor="date">
-            <i className="fa-solid fa-calendar-days"></i> Date
-          </label>
-          <input
-            type="date"
-            id="date"
-            onChange={inputHandler}
-            name="date"
-            value={income.date}
-            className={errors.date ? "input-error" : ""}
-          />
-          {errors.date && <span className="error-text">{errors.date}</span>}
-        </div>
+            {/* Income Name */}
+            <div className="input-group">
+              <label className="form-label">Income Name</label>
+              <input
+                type="text"
+                name="name"
+                value={income.name}
+                onChange={inputHandler}
+                placeholder="Where did this money come from?"
+                autoComplete="off"
+              />
+            </div>
 
-        {/* Notes */}
-        <div className="inputGroup">
-          <label htmlFor="notes">
-            <i className="fa-solid fa-pen-to-square"></i> Notes <span className="optional-tag">(optional)</span>
-          </label>
-          <textarea
-            id="notes"
-            name="notes"
-            value={income.notes}
-            onChange={inputHandler}
-            placeholder="Any extra details..."
-            rows="3"
-          />
-        </div>
+            {/* Date and Notes */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-md)" }}>
+              <div className="input-group">
+                <label className="form-label">Date</label>
+                <input type="date" name="date" value={income.date} onChange={inputHandler} />
+              </div>
+              <div className="input-group">
+                <label className="form-label">Notes</label>
+                <input
+                  type="text"
+                  name="notes"
+                  value={income.notes}
+                  onChange={inputHandler}
+                  placeholder="Optional"
+                />
+              </div>
+            </div>
+          </div>
 
-        {/* Buttons */}
-        <div className="form-actions">
-          <button type="submit" className="btn btn-primary" disabled={isLoading}>
-            {isLoading ? (
-              <><i className="fa-solid fa-spinner fa-spin"></i> Saving...</>
-            ) : (
-              <><i className="fa-solid fa-check"></i> Submit</>
-            )}
-          </button>
-          <button
-            type="button"
-            className="btn btn-outline"
-            disabled={isLoading}
-            onClick={(e) => submitForm(e, true)}
-          >
-            <i className="fa-solid fa-plus"></i> Save & Add Another
-          </button>
-        </div>
-      </form>
+          <div className="form-actions">
+            <button type="button" className="btn btn-ghost" onClick={() => navigate("/Dashboard")}>
+              Cancel
+            </button>
+            <button type="submit" className="btn btn-success" disabled={loading}>
+              {loading ? <i className="fa-solid fa-spinner fa-spin"></i> : "Save Income"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -1,136 +1,156 @@
+/*
+ * Income History Component — Redesigned
+ * Changes: Success-themed, sticky search, category filters, 
+ * and responsive views.
+ */
 import React, { useEffect, useState, useMemo } from "react";
+import "../showExpense/showExpense.css";
 import "./showIncome.css";
 import api from "../api";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
+const CATEGORIES = ["All", "Salary", "Freelance", "Business", "Investments", "Rental Income", "Gift", "Refund", "Other"];
 
 const Income = () => {
   const navigate = useNavigate();
+  const [incomes, setIncomes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [totalIncome, setTotalIncome] = useState(0);
 
-  // Auth guard
   useEffect(() => {
     if (!localStorage.getItem("token")) navigate("/UserLogin");
   }, [navigate]);
 
-  const [totalIncome, setTotalIncome] = useState(0);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const [incRes, totalRes] = await Promise.all([
+        api.get("/incomes"),
+        api.get("/getTotalIncome")
+      ]);
+      setIncomes(incRes.data);
+      setTotalIncome(totalRes.data.totalIncome);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to load incomes");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchTotalIncome = async () => {
-      try {
-        const res = await api.get("/getTotalIncome");
-        setTotalIncome(res.data.totalIncome);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchTotalIncome();
-  }, []);
-  const [income, setIncome] = useState([]);
-  const [sortBy, setSortBy] = useState("newest");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get("/incomes");
-        setIncome(response.data);
-      } catch (error) {
-        console.log("Error while fetching data", error);
-      }
-    };
     fetchData();
   }, []);
 
-  const sortedIncomes = useMemo(() => {
-    const sorted = [...income];
-    switch (sortBy) {
-      case "newest":
-        return sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
-      case "oldest":
-        return sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
-      case "highest":
-        return sorted.sort((a, b) => b.amount - a.amount);
-      case "lowest":
-        return sorted.sort((a, b) => a.amount - b.amount);
-      default:
-        return sorted;
-    }
-  }, [income, sortBy]);
+  const filteredIncomes = useMemo(() => {
+    return incomes.filter((item) => {
+      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = selectedCategory === "All" || item.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    }).sort((a, b) => new Date(b.date) - new Date(a.date));
+  }, [incomes, searchTerm, selectedCategory]);
 
-  const deleteIncome = async (userId) => {
+  const deleteIncome = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this income?")) return;
     try {
-      await api.delete(`/delete/income/${userId}`);
-      setIncome((prevUser) => prevUser.filter((user) => user._id !== userId));
+      await api.delete(`/delete/income/${id}`);
+      setIncomes(incomes.filter((e) => e._id !== id));
+      toast.success("Income deleted");
     } catch (error) {
-      console.log(error);
+      toast.error("Delete failed");
     }
   };
 
   return (
-    <div>
-      <h1 className="navbar-title"><i className="fa-solid fa-user" style={{ marginRight: "8px" }}></i>Incomes</h1>
-
-
-
-      <div className="userTable">
-        <div className="buttons-row">
-          <Link to="/addIncome" type="button" className="btn btn-primary">
-            Add Income <i className="fa-solid fa-plus"></i>
-          </Link>
-          <Link to="/Dashboard" type="button" className="btn btn-secondary">
-            DashBoard
-          </Link>
-
-          <select
-            className="sort-select"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-          >
-            <option value="newest">Sort Newest First</option>
-            <option value="oldest">Sort Oldest First</option>
-            <option value="highest">Sort Highest Income</option>
-            <option value="lowest">Sort Lowest Income</option>
-          </select>
-
-          <h2>Total Income:₹ {totalIncome}</h2>
-
-
+    <div className="history-page income-history">
+      <div className="history-header">
+        <div className="search-bar-container">
+          <div className="search-input-wrap">
+            <i className="fa-solid fa-magnifying-glass"></i>
+            <input
+              type="text"
+              placeholder="Search income sources..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
         </div>
 
+        <div className="filter-scroll-container">
+          {CATEGORIES.map((cat) => (
+            <div
+              key={cat}
+              className={`filter-chip ${selectedCategory === cat ? "active" : ""}`}
+              onClick={() => setSelectedCategory(cat)}
+            >
+              {cat}
+            </div>
+          ))}
+        </div>
+      </div>
 
-        <table className="table table-bordered">
+      <div style={{ margin: "var(--space-lg) 0", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+        <span style={{ color: "var(--color-text-muted)", fontSize: "0.875rem" }}>
+          Showing {filteredIncomes.length} records
+        </span>
+        <div>
+          <span style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>Total: </span>
+          <span style={{ fontSize: "1.25rem", fontWeight: 800, color: "var(--color-success)" }}>₹{totalIncome}</span>
+        </div>
+      </div>
+
+      <div className="mobile-card-list">
+        {filteredIncomes.map((item) => (
+          <div key={item._id} className="history-item-card">
+            <div className="history-item-icon">
+              <i className="fa-solid fa-wallet" style={{ color: "var(--color-success)" }}></i>
+            </div>
+            <div className="history-item-details">
+              <span className="history-item-title">{item.name}</span>
+              <div className="history-item-meta">
+                <span>{new Date(item.date).toLocaleDateString()}</span>
+                <span className="tag-pill">{item.category || "Other"}</span>
+              </div>
+            </div>
+            <div className="history-item-amount amount-income">
+              + ₹{item.amount}
+            </div>
+            <button onClick={() => deleteIncome(item._id)} style={{ color: "var(--color-text-muted)", marginLeft: "8px" }}>
+              <i className="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        ))}
+        {filteredIncomes.length === 0 && <div className="no-data">No records found</div>}
+      </div>
+
+      <div className="desktop-table-view">
+        <table>
           <thead>
             <tr>
-              <th scope="col">S.No.</th>
-              <th scope="col">Name</th>
-              <th scope="col">Category</th>
-              <th scope="col">Amount</th>
-              <th scope="col">Date</th>
-              <th scope="col">Actions</th>
+              <th>Date</th>
+              <th>Source</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {sortedIncomes.map((item, index) => {
-              return (
-                <tr key={item._id}>
-                  <td>{index + 1}</td>
-                  <td>{item.name}</td>
-                  <td><span className="category-badge">{item.category || "Other"}</span></td>
-                  <td>₹ {item.amount} <i className="fa-solid fa-arrow-trend-up text-success"></i> </td>
-                  <td>{new Date(item.date).toLocaleDateString()}</td>
-                  <td className="actionButtons">
-
-                    <button
-                      onClick={() => deleteIncome(item._id)}
-                      type="button"
-                      className="btn btn-danger"
-                    >
-                      <i className="fa-solid fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+            {filteredIncomes.map((item) => (
+              <tr key={item._id}>
+                <td>{new Date(item.date).toLocaleDateString()}</td>
+                <td style={{ fontWeight: 600 }}>{item.name}</td>
+                <td><span className="tag-pill">{item.category || "Other"}</span></td>
+                <td style={{ fontWeight: 800, color: "var(--color-success)" }}>+ ₹{item.amount}</td>
+                <td>
+                  <button onClick={() => deleteIncome(item._id)} className="btn btn-ghost" style={{ padding: "8px", minWidth: "auto", minHeight: "auto" }}>
+                    <i className="fa-solid fa-trash-can" style={{ color: "var(--color-danger)" }}></i>
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

@@ -10,6 +10,8 @@ import Dashboard from "./dashboard/dashboard";
 import Login from "./userLogin/login";
 import Register from "./userRegister/reg";
 import Home from "./home/Home";
+import MainLayout from "./components/MainLayout";
+import Analytics from "./dashboard/analytics";
 
 const route = createBrowserRouter([
   {
@@ -18,15 +20,19 @@ const route = createBrowserRouter([
   },
   {
     path: "/Dashboard",
-    element: <Dashboard />,
+    element: <MainLayout><Dashboard /></MainLayout>,
+  },
+  {
+    path: "/Analytics",
+    element: <MainLayout><Analytics /></MainLayout>,
   },
   {
     path: "/Incomes",
-    element: <Income />,
+    element: <MainLayout><Income /></MainLayout>,
   },
   {
     path: "/Expenses",
-    element: <Expense />,
+    element: <MainLayout><Expense /></MainLayout>,
   },
   {
     path: "/AddExpense",
