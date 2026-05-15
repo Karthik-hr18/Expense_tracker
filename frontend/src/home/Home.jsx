@@ -40,22 +40,24 @@ const Home = () => {
         {/* Visual Mockup */}
         <div className="hero-visual">
           <div className="glass-mockup">
-            <div style={{ display: 'flex', gap: 'var(--space-md)', marginBottom: 'var(--space-xl)' }}>
-              <div style={{ flex: 1, height: '120px', background: 'var(--color-surface-2)', borderRadius: '12px', padding: '16px' }}>
-                <span className="form-label">Total Balance</span>
-                <h2 style={{ margin: 0 }}>₹4,52,000</h2>
+            <div className="mockup-grid">
+              <div className="mockup-card">
+                <span className="mockup-label">Total Balance</span>
+                <h2 className="mockup-value">₹4,52,000</h2>
               </div>
-              <div style={{ flex: 1, height: '120px', background: 'var(--color-surface-2)', borderRadius: '12px', padding: '16px' }}>
-                <span className="form-label">Monthly Spend</span>
-                <h2 style={{ margin: 0, color: 'var(--color-danger)' }}>₹12,400</h2>
+              <div className="mockup-card">
+                <span className="mockup-label">Monthly Spend</span>
+                <h2 className="mockup-value" style={{ color: 'var(--color-danger)' }}>₹12,400</h2>
               </div>
             </div>
-            <div style={{ height: '200px', background: 'var(--color-surface-2)', borderRadius: '12px', display: 'flex', alignItems: 'flex-end', gap: '8px', padding: '20px' }}>
-              <div style={{ flex: 1, height: '40%', background: 'var(--color-primary)', opacity: 0.3, borderRadius: '4px' }}></div>
-              <div style={{ flex: 1, height: '60%', background: 'var(--color-primary)', opacity: 0.5, borderRadius: '4px' }}></div>
-              <div style={{ flex: 1, height: '30%', background: 'var(--color-primary)', opacity: 0.3, borderRadius: '4px' }}></div>
-              <div style={{ flex: 1, height: '80%', background: 'var(--color-primary)', borderRadius: '4px' }}></div>
-              <div style={{ flex: 1, height: '50%', background: 'var(--color-primary)', opacity: 0.6, borderRadius: '4px' }}></div>
+            <div className="mockup-chart">
+              <div className="chart-bar" style={{ height: '40%', opacity: 0.3 }}></div>
+              <div className="chart-bar" style={{ height: '60%', opacity: 0.5 }}></div>
+              <div className="chart-bar" style={{ height: '30%', opacity: 0.3 }}></div>
+              <div className="chart-bar" style={{ height: '80%' }}></div>
+              <div className="chart-bar" style={{ height: '50%', opacity: 0.6 }}></div>
+              <div className="chart-bar" style={{ height: '70%', opacity: 0.8 }}></div>
+              <div className="chart-bar" style={{ height: '45%', opacity: 0.4 }}></div>
             </div>
           </div>
         </div>
