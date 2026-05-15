@@ -68,7 +68,6 @@
 
 /* ===== DESKTOP TABLE (CLEAN & PREMIUM) ===== */
 .desktop-table-view {
-  display: none; /* Hidden on mobile */
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 16px;
@@ -76,9 +75,52 @@
   margin-top: var(--space-lg);
 }
 
+/* Layout Toggle: Mobile Cards vs Desktop Table */
+@media (max-width: 1023px) {
+  .desktop-table-view {
+    display: none !important;
+  }
+  .mobile-card-list {
+    display: flex !important;
+  }
+}
+
 @media (min-width: 1024px) {
-  .desktop-table-view { display: block; }
-  .mobile-card-list { display: none !important; }
+  .desktop-table-view {
+    display: block !important;
+  }
+  .mobile-card-list {
+    display: none !important;
+  }
+
+  .search-container {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 12px !important;
+    background: var(--color-surface) !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: 12px !important;
+    padding: 0 16px !important;
+    height: 48px !important;
+    width: 100% !important;
+    margin-bottom: 24px !important;
+  }
+
+  .search-container i {
+    color: var(--color-text-muted) !important;
+    font-size: 1rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .search-container input {
+    flex: 1 !important;
+    background: transparent !important;
+    border: none !important;
+    color: var(--color-text) !important;
+    font-size: 0.95rem !important;
+    outline: none !important;
+  }
 }
 
 .desktop-table-view table {
@@ -107,9 +149,18 @@
 
 .desktop-table-view tr:last-child td { border-bottom: none; }
 
-.desktop-table-view tr:hover td {
-  background: rgba(108, 99, 255, 0.02);
-  color: var(--color-text);
+@media (min-width: 1024px) {
+  .desktop-table-view {
+    display: block !important;
+  }
+}
+
+.desktop-table-view .fa-trash-can {
+  color: var(--color-danger) !important;
+}
+
+.desktop-table-view .btn-ghost:hover {
+  background: var(--color-danger-bg) !important;
 }
 
 /* ===== MOBILE CARDS (CLEAN) ===== */
@@ -258,24 +309,25 @@
 .profile-section {
   display: flex;
   align-items: center;
-  gap: 12px;
-  height: 44px; /* Fixed height for alignment */
-  padding: 0 4px 0 16px;
+  gap: 10px;
+  height: 40px;
+  padding: 0 4px 0 12px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--color-border);
-  border-radius: 14px;
+  border-radius: 12px;
 }
 
-.avatar-large {
-  width: 36px;
-  height: 36px;
+.avatar-small {
+  width: 32px;
+  height: 32px;
   background: var(--color-primary);
-  border-radius: 10px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
+  font-weight: 700;
   color: #fff;
+  font-size: 0.9rem;
   flex-shrink: 0;
 }
 

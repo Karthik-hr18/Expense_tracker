@@ -63,16 +63,14 @@ const Income = () => {
   return (
     <div className="history-page income-history">
       <div className="history-header">
-        <div className="search-bar-container">
-          <div className="search-input-wrap">
-            <i className="fa-solid fa-magnifying-glass"></i>
-            <input
-              type="text"
-              placeholder="Search income sources..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+        <div className="search-container">
+          <i className="fa-solid fa-magnifying-glass"></i>
+          <input
+            type="text"
+            placeholder="Search income sources..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
 
         <div className="filter-scroll-container">
@@ -106,17 +104,19 @@ const Income = () => {
             </div>
             <div className="history-item-details">
               <span className="history-item-title">{item.name}</span>
-              <div className="history-item-meta">
-                <span>{new Date(item.date).toLocaleDateString()}</span>
+              <div className="history-item-info-row">
                 <span className="tag-pill">{item.category || "Other"}</span>
+                <span className="history-item-date">{new Date(item.date).toLocaleDateString()}</span>
               </div>
             </div>
-            <div className="history-item-amount amount-income">
-              + ₹{item.amount}
+            <div className="history-item-right">
+              <div className="history-item-amount amount-income">
+                + ₹{item.amount}
+              </div>
+              <button onClick={() => deleteIncome(item._id)} className="delete-btn-mobile">
+                <i className="fa-solid fa-trash-can"></i>
+              </button>
             </div>
-            <button onClick={() => deleteIncome(item._id)} style={{ color: "var(--color-text-muted)", marginLeft: "8px" }}>
-              <i className="fa-solid fa-trash-can"></i>
-            </button>
           </div>
         ))}
         {filteredIncomes.length === 0 && <div className="no-data">No records found</div>}
@@ -130,6 +130,7 @@ const Income = () => {
               <th>Source</th>
               <th>Category</th>
               <th>Amount</th>
+              <th>Description</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -140,9 +141,10 @@ const Income = () => {
                 <td style={{ fontWeight: 600 }}>{item.name}</td>
                 <td><span className="tag-pill">{item.category || "Other"}</span></td>
                 <td style={{ fontWeight: 800, color: "var(--color-success)" }}>+ ₹{item.amount}</td>
+                <td style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{item.description || "—"}</td>
                 <td>
                   <button onClick={() => deleteIncome(item._id)} className="btn btn-ghost" style={{ padding: "8px", minWidth: "auto", minHeight: "auto" }}>
-                    <i className="fa-solid fa-trash-can" style={{ color: "var(--color-danger)" }}></i>
+                    <i className="fa-solid fa-trash-can"></i>
                   </button>
                 </td>
               </tr>

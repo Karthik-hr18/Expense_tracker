@@ -1,0 +1,53 @@
+/* ============================================================
+   MOBILE SEARCH BAR ALIGNMENT — ExpenseTracker
+   Changes: Forced single-line flex layout for search icon 
+   and input field. Added premium focus states and padding.
+   ============================================================ */
+
+@media (max-width: 767px) {
+  /* Search Container (Forced Row) */
+  .search-container {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 12px !important;
+    background: var(--color-surface) !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: 14px !important;
+    padding: 0 16px !important;
+    height: 50px !important;
+    width: 100% !important;
+    margin-bottom: 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Search Icon */
+  .search-container i {
+    color: var(--color-primary) !important;
+    font-size: 1.1rem !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Search Input */
+  .search-container input {
+    flex: 1 !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    color: var(--color-text) !important;
+    font-size: 0.95rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 100% !important;
+    width: auto !important;
+  }
+
+  /* Focus State */
+  .search-container:focus-within {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 4px var(--color-primary-glow) !important;
+  }
+}

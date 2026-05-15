@@ -6,6 +6,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../dashboard/dashboard.css";
+import "../dashboard/mobileUI.css";
+import "../dashboard/searchFix.css";
 
 const MainLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -103,7 +105,7 @@ const MainLayout = ({ children }) => {
         <header className="top-navbar">
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <button className="hamburger-btn" onClick={() => setSidebarOpen(true)}>
-              <i className="fa-solid fa-bars-staggered"></i>
+              <i className="fa-solid fa-bars"></i>
             </button>
             <span className="mobile-logo">ExpenseTracker</span>
           </div>
@@ -111,12 +113,9 @@ const MainLayout = ({ children }) => {
           <div className="nav-actions">
             <div className="profile-section">
               <div style={{ textAlign: 'right' }}>
-                <p className="profile-name">{username}</p>
-                <button onClick={handleLogout} className="logout-link">
-                  Logout
-                </button>
+                <p className="profile-name" style={{ fontSize: '0.85rem' }}>{username}</p>
               </div>
-              <div className="avatar-large">
+              <div className="avatar-small">
                 {username ? username.charAt(0).toUpperCase() : "U"}
               </div>
             </div>
@@ -149,10 +148,6 @@ const MainLayout = ({ children }) => {
           <i className="fa-solid fa-receipt"></i>
           <span>History</span>
         </Link>
-        <button className="bottom-nav-item" onClick={() => setSidebarOpen(true)} style={{ border: 'none', background: 'transparent' }}>
-          <i className="fa-solid fa-bars"></i>
-          <span>Menu</span>
-        </button>
       </nav>
     </div>
   );
