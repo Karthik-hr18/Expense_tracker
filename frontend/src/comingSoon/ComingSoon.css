@@ -1,0 +1,283 @@
+/* ============================================================
+   COMING SOON PAGE STYLE SHEET
+   ============================================================ */
+
+.coming-soon-container {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-bg);
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+/* Glowing background mesh blobs */
+.bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.15;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.blob-1 {
+  width: 400px;
+  height: 400px;
+  background: var(--color-primary);
+  top: -10%;
+  left: -10%;
+}
+
+.blob-2 {
+  width: 500px;
+  height: 500px;
+  background: #3b82f6;
+  bottom: -15%;
+  right: -10%;
+}
+
+/* Page Card Container */
+.coming-soon-card {
+  position: relative;
+  z-index: 1;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 32rem;
+  padding: var(--space-2xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  backdrop-filter: blur(16px);
+}
+
+/* Interactive Back Button */
+.btn-back {
+  position: absolute;
+  top: var(--space-lg);
+  left: var(--space-lg);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-back:hover {
+  color: var(--color-primary);
+  transform: translateX(-4px);
+}
+
+.btn-back i {
+  font-size: 0.75rem;
+}
+
+/* Header Elements */
+.cs-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.cs-icon-wrap {
+  width: 4.5rem;
+  height: 4.5rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: var(--space-sm);
+  box-shadow: var(--shadow-primary);
+}
+
+.cs-badge {
+  background: rgba(108, 99, 255, 0.15);
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-sm);
+}
+
+.cs-header h1 {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.cs-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  max-width: 28rem;
+}
+
+/* Progress bar styles */
+.cs-progress-container {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.cs-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.cs-progress-bar {
+  background: var(--color-border);
+  height: 8px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.cs-progress-fill {
+  background: linear-gradient(90deg, var(--color-primary) 0%, #3b82f6 100%);
+  height: 100%;
+  border-radius: var(--radius-full);
+  animation: progressAnimation 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes progressAnimation {
+  from { width: 0%; }
+}
+
+/* Notify Subscription Form */
+.cs-notify-form {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.cs-notify-form h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.cs-notify-form p {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin-bottom: var(--space-xs);
+}
+
+.cs-input-group {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.cs-input-group input {
+  flex: 1;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  color: var(--color-text);
+  font-size: 0.875rem;
+}
+
+.cs-input-group input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-glow);
+  outline: none;
+}
+
+.btn-cs-submit {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  color: #fff;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.btn-cs-submit:hover {
+  box-shadow: var(--shadow-primary);
+  transform: translateY(-1px);
+}
+
+.btn-cs-submit:active {
+  transform: scale(0.97);
+}
+
+.btn-cs-submit:disabled {
+  background: var(--color-success);
+  color: #fff;
+  opacity: 0.9;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Footer brand styles */
+.cs-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-lg);
+  margin-top: var(--space-xs);
+}
+
+.cs-footer i {
+  color: var(--color-primary);
+  font-size: 0.85rem;
+}
+
+/* Mobile responsive padding */
+@media (max-width: 480px) {
+  .coming-soon-card {
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .cs-input-group {
+    flex-direction: column;
+  }
+
+  .btn-cs-submit {
+    width: 100%;
+  }
+}

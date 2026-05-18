@@ -12,11 +12,16 @@ import Register from "./userRegister/reg";
 import Home from "./home/Home";
 import MainLayout from "./components/MainLayout";
 import Analytics from "./dashboard/analytics";
+import ComingSoon from "./comingSoon/ComingSoon";
 
 const route = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/ComingSoon",
+    element: <ComingSoon />,
   },
   {
     path: "/Dashboard",
