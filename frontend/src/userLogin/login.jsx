@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 const Login = () => {
     const [user, setUser] = useState({ identifier: "", password: "" });
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     const inputHandler = (e) => {
@@ -79,6 +80,9 @@ const Login = () => {
             <div className="auth-form-panel">
                 <div className="auth-card animate-in">
                     <div className="auth-header">
+                        <Link to="/" className="auth-back-link">
+                            <i className="fa-solid fa-arrow-left"></i> Back to Home
+                        </Link>
                         <div className="auth-icon-wrap">
                             <i className="fa-solid fa-right-to-bracket"></i>
                         </div>
@@ -106,15 +110,25 @@ const Login = () => {
                             <label htmlFor="password">
                                 <i className="fa-solid fa-lock"></i> Password
                             </label>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                onChange={inputHandler}
-                                autoComplete="off"
-                                placeholder="Enter your password"
-                                required
-                            />
+                            <div className="password-wrapper">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    id="password"
+                                    name="password"
+                                    onChange={inputHandler}
+                                    autoComplete="off"
+                                    placeholder="Enter your password"
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className="password-toggle"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                >
+                                    <i className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
+                                </button>
+                            </div>
                         </div>
 
                         <div className="forgot-link">

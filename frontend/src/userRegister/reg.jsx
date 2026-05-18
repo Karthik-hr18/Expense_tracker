@@ -26,6 +26,8 @@ const Register = () => {
     const [user, setUser] = useState({ username: "", email: "", password: "", confirm_password: "" });
     const [loading, setLoading] = useState(false);
     const [pwdStrength, setPwdStrength] = useState(0);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
 
     const inputHandler = (e) => {
@@ -92,6 +94,9 @@ const Register = () => {
             <div className="auth-form-panel">
                 <div className="auth-card animate-in">
                     <div className="auth-header">
+                        <Link to="/" className="auth-back-link">
+                            <i className="fa-solid fa-arrow-left"></i> Back to Home
+                        </Link>
                         <div className="auth-icon-wrap">
                             <i className="fa-solid fa-user-plus"></i>
                         </div>
@@ -135,15 +140,25 @@ const Register = () => {
                             <label htmlFor="password">
                                 <i className="fa-solid fa-lock"></i> Password
                             </label>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                onChange={inputHandler}
-                                autoComplete="off"
-                                placeholder="Create a password (min 8 chars)"
-                                required
-                            />
+                            <div className="password-wrapper">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    id="password"
+                                    name="password"
+                                    onChange={inputHandler}
+                                    autoComplete="off"
+                                    placeholder="Create a password (min 8 chars)"
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className="password-toggle"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                >
+                                    <i className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
+                                </button>
+                            </div>
                             {user.password.length > 0 && (
                                 <>
                                     <div className="password-strength">
@@ -165,15 +180,25 @@ const Register = () => {
                             <label htmlFor="confirm_password">
                                 <i className="fa-solid fa-shield-halved"></i> Confirm Password
                             </label>
-                            <input
-                                type="password"
-                                id="confirm_password"
-                                name="confirm_password"
-                                onChange={inputHandler}
-                                autoComplete="off"
-                                placeholder="Confirm your password"
-                                required
-                            />
+                            <div className="password-wrapper">
+                                <input
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    id="confirm_password"
+                                    name="confirm_password"
+                                    onChange={inputHandler}
+                                    autoComplete="off"
+                                    placeholder="Confirm your password"
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className="password-toggle"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                                >
+                                    <i className={`fa-solid ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
+                                </button>
+                            </div>
                         </div>
 
                         <button type="submit" className="auth-btn" disabled={loading} id="register-submit-btn">

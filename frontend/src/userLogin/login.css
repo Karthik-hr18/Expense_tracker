@@ -169,6 +169,29 @@
 
 .auth-header {
   margin-bottom: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: var(--space-lg);
+  transition: var(--transition);
+  align-self: flex-start;
+}
+
+.auth-back-link:hover {
+  color: var(--color-primary);
+  transform: translateX(-4px);
+}
+
+.auth-back-link i {
+  font-size: 0.8rem;
 }
 
 .auth-icon-wrap {
@@ -235,6 +258,39 @@
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px var(--color-primary-glow);
   outline: none;
+}
+
+/* ===== PASSWORD WRAPPER & TOGGLE ===== */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 3rem !important; /* Leave space for the toggle button */
+}
+
+.password-toggle {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  padding: 0.25rem;
+  transition: var(--transition);
+  z-index: 10;
+}
+
+.password-toggle:hover {
+  color: var(--color-text);
 }
 
 .input-group input.input-error {

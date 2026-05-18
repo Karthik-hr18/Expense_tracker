@@ -1,1 +1,17 @@
 /* Register page reuses login.css — no extra styles needed */
+/* Ensure mobile header is visible on small screens */
+@media (max-width: 768px) {
+    .auth-mobile-header {
+        display: flex !important;
+    }
+    
+    .auth-brand-panel {
+        display: none !important;
+    }
+
+    .auth-form-panel {
+        width: 100% !important;
+        padding: 2rem 1.5rem !important;
+    }
+}
+
